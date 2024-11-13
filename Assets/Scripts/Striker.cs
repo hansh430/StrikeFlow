@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Striker : MonoBehaviour
 {
     [SerializeField] private float strikeForce=200f;
     [SerializeField] private LineRenderer line;
     [SerializeField] private float maxLineLength = 3f;
-    [SerializeField] private Vector2 player1Position;  
-    [SerializeField] private Vector2 player2Position;
+   
     private bool isPlayer1Turn = false;
     private Rigidbody2D rigidBody;
     private Vector2 startposition;
@@ -38,12 +38,20 @@ public class Striker : MonoBehaviour
             ShootStriker();
             isPositionSet = false;
         }
-        if (rigidBody.velocity.magnitude < 0.1f && rigidBody.velocity.magnitude != 0)
+        if (rigidBody.velocity.magnitude < 0.1f && hasStriked)
+        {
+            StartCoroutine(ResetStrikerAfterDelay());
+        }
+    }
+    private IEnumerator ResetStrikerAfterDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (rigidBody.velocity.magnitude == 0 && hasStriked)
         {
             StrikerReset();
         }
     }
-
     private void DrawLine()
     {
         if (isPositionSet && rigidBody.velocity.magnitude == 0)
@@ -88,14 +96,17 @@ public class Striker : MonoBehaviour
     {
         rigidBody.velocity = Vector2.zero;
         hasStriked = false;
-        isPositionSet=false;
+        isPositionSet = false;
         distance = 0;
-        if (isPlayer1Turn)
-            transform.position = player1Position;
-        else
-            transform.position = player2Position;
+        SwitchPlayers();
+    }
+
+    private void SwitchPlayers()
+    {
+        EventHandler.OnPlayerTurnChangedEvent(this.transform,isPlayer1Turn);
         isPlayer1Turn = !isPlayer1Turn;
     }
+
     private void LimitLineLenght()
     {
         currentDistance = Vector2.Distance(selfTransform.position, endMouseposition);

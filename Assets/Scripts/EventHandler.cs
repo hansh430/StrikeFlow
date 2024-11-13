@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class EventHandler : MonoBehaviour
 {
-    public static Action OnPlayerTurnChangedEvent;
+    public static Action<Transform,bool> OnPlayerTurnChangedEvent;
 }
