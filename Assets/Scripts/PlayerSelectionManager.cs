@@ -15,6 +15,7 @@ public class PlayerSelectionManager : MonoBehaviour
     {
         if (isPlayer1Turn)
         {
+            player1Slider.value = 0;
             strikerTransform.position = player1Position;
             player1Slider.gameObject.SetActive(true);
             player2Slider.gameObject.SetActive(false);
@@ -22,6 +23,7 @@ public class PlayerSelectionManager : MonoBehaviour
         }
         else
         {
+            player2Slider.value = 0;
             strikerTransform.position = player2Position;
             player1Slider.gameObject.SetActive(false);
             player2Slider.gameObject.SetActive(true);

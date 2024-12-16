@@ -6,4 +6,5 @@ using UnityEngine;
 public class EventHandler : MonoBehaviour
 {
     public static Action<Transform,bool> OnPlayerTurnChangedEvent;
+    public static Action<bool,int> OnPlayerScoreUpdateEvent;
 }

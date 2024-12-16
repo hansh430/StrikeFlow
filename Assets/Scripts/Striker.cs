@@ -10,7 +10,7 @@ public class Striker : MonoBehaviour
     [SerializeField] private LineRenderer line;
     [SerializeField] private float maxLineLength = 3f;
    
-    private bool isPlayer1Turn = false;
+    public static bool isPlayer1Turn = true;
     private Rigidbody2D rigidBody;
     private Vector2 startposition;
     private Transform selfTransform;
@@ -103,8 +103,8 @@ public class Striker : MonoBehaviour
 
     private void SwitchPlayers()
     {
-        EventHandler.OnPlayerTurnChangedEvent(this.transform,isPlayer1Turn);
         isPlayer1Turn = !isPlayer1Turn;
+        EventHandler.OnPlayerTurnChangedEvent(this.transform,isPlayer1Turn);
     }
 
     private void LimitLineLenght()
